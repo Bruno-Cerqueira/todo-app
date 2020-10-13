@@ -21,13 +21,12 @@ class MyApp extends StatelessWidget {
 }
 
 class HomePage extends StatefulWidget {
-  var items = new List<Item>();
+  final items = new List<Item>();
 
   HomePage() {
-    items = [];
-    items.add(new Item.fromJson({'title': 'Item 1', 'done': false}));
-    items.add(new Item.fromJson({'title': 'Item 2', 'done': false}));
-    items.add(new Item.fromJson({'title': 'Item 3', 'done': false}));
+    items.add(new Item.fromJson({'title': 'Banana', 'done': false}));
+    items.add(new Item.fromJson({'title': 'Apple', 'done': true}));
+    items.add(new Item.fromJson({'title': 'Orange', 'done': false}));
   }
   @override
   _HomePageState createState() => _HomePageState();
@@ -43,7 +42,16 @@ class _HomePageState extends State<HomePage> {
       body: ListView.builder(
         itemCount: widget.items.length,
         itemBuilder: (BuildContext ctxt, int index) {
-          return Text(widget.items[index].title);
+          final item = widget.items[index];
+          return CheckboxListTile(
+              title: Text(item.title),
+              key: Key(item.title),
+              value: item.done,
+              onChanged: (value) {
+                setState(() {
+                  item.done = value;
+                });
+              });
         },
       ),
     );
